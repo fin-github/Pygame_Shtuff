@@ -10,6 +10,7 @@ BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 128)
 YELLOW = (153, 153, 0)
+RED = (255, 0, 0)
 LIGHT_YELLOW = (255, 255, 102)
 
 titleFont = pygame.font.Font(
