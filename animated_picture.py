@@ -9,9 +9,19 @@ NO_CHANGE = 0
 DOWN = 1
 UP = 2
 current_light = 0
+current_acc = 0
 current_x = 0
 current_theta = 0
 current_vel = 0
+
+acc = 0
+ACC_INCREASE = 1
+ACC_DECREASE = -1
+
+vel_lim = 5
+acc_lim = 1
+friction_acc = .1
+acc_step = .03
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -51,7 +61,7 @@ def draw_light_holder():
     global current_x
     global traffic_light
     move_by = get_move_by()
-    DISPLAYSURF.fill(WHITE)
+    #DISPLAYSURF.fill(WHITE)
     DISPLAYSURF.blit(traffic_light, (0 - move_by,0))
     pygame.draw.rect(DISPLAYSURF, WHITE, (108 - move_by, 136, 32, 7))
     change_light(NO_CHANGE)
@@ -64,20 +74,23 @@ def get_move_by():
         move_by = current_x + 50
     else:
         move_by = 0
-    return move_by
+    return int(move_by)
 
 def draw_wheel():
     global current_x
     global current_theta
     wheel = pygame.image.load("Wheel.png")
     wheel = pygame.transform.scale(wheel, (80, 80))
-    wheel = rot_center(wheel, current_theta)
+    wheel = rot_center(wheel, -1*current_theta)
     if(current_x > 50):
         DISPLAYSURF.blit(wheel, (400, 300))
+        DISPLAYSURF.blit(wheel, (300, 300))
     elif(current_x < -50):
         DISPLAYSURF.blit(wheel, (100, 300))
+        DISPLAYSURF.blit(wheel, (0, 300))
     else:
-        DISPLAYSURF.blit(wheel, (250 + (current_x*3), 300))
+        DISPLAYSURF.blit(wheel, (int(250 + (current_x*3)), 300))
+        DISPLAYSURF.blit(wheel, (int(150 + (current_x*3)), 300))
     
 def rot_center(image, angle):
     """rotate an image while keeping its center and size"""
@@ -88,6 +101,11 @@ def rot_center(image, angle):
     rot_image = rot_image.subsurface(rot_rect).copy()
     return rot_image
 
+def draw_background():
+    global current_x
+    DISPLAYSURF.fill(WHITE)
+    #This will do more once we have an image or something to put in the back
+    
 while True: # main game loop
     for event in pygame.event.get():
         if(event.type == QUIT):
@@ -100,15 +118,36 @@ while True: # main game loop
             elif(key_map[K_LEFT]):
                 change_light(UP)
             elif(key_map[K_DOWN]):
-                current_vel -= 1
+                acc = ACC_INCREASE
             elif(key_map[K_UP]):
-                current_vel += 1
+                acc = ACC_DECREASE
             elif(key_map[K_SPACE]):
                 draw_lights([True, True, True])
         elif(event.type == MOUSEBUTTONDOWN):
             print pygame.mouse.get_pos()
+        elif(event.type == KEYUP):
+            key_map = pygame.key.get_pressed()
+            if(not key_map[K_DOWN]) or (not key_map[K_UP]):
+                acc = NO_CHANGE
+    if(acc == ACC_INCREASE):
+        if (current_acc >= -acc_lim):
+            current_acc -= acc_step
+    elif(acc == ACC_DECREASE):
+        if (current_acc <= acc_lim):
+            current_acc += acc_step
+    elif(acc == NO_CHANGE):
+        if (current_vel > acc_step):
+            current_acc = -friction_acc
+        elif (current_vel < -acc_step):
+            current_acc = friction_acc
+        else:
+            current_acc = 0
+            current_vel = 0
+    if((int(current_vel) >= vel_lim) and (current_acc < 0)) or ((int(current_vel) <= -vel_lim) and (current_acc > 0)) or (int(current_vel) in range(-vel_lim, vel_lim)):
+        current_vel += current_acc
     current_x += current_vel
     current_theta += (current_vel * 5)
+    draw_background()
     draw_light_holder()
     draw_wheel()
     pygame.display.update()
