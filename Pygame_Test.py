@@ -21,6 +21,9 @@ textRectObj.center = (200, 60)
 
 mouse_on_button = False
 
+class Button():
+    pass
+
 def right_arrow_pressed():
     print "Right Pressed!"
 

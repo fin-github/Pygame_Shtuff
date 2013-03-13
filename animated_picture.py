@@ -61,7 +61,6 @@ def draw_light_holder():
     global current_x
     global traffic_light
     move_by = get_move_by()
-    #DISPLAYSURF.fill(WHITE)
     DISPLAYSURF.blit(traffic_light, (0 - move_by,0))
     pygame.draw.rect(DISPLAYSURF, WHITE, (108 - move_by, 136, 32, 7))
     change_light(NO_CHANGE)
@@ -121,8 +120,15 @@ while True: # main game loop
                 acc = ACC_INCREASE
             elif(key_map[K_UP]):
                 acc = ACC_DECREASE
-            elif(key_map[K_SPACE]):
-                draw_lights([True, True, True])
+            elif(key_map[K_r]):
+                draw_lights([True, False, False])
+                current_light = 0
+            elif(key_map[K_y]):
+                draw_lights([False, True, False])
+                current_light = 1
+            elif(key_map[K_g]):
+                draw_lights([False, False, True])
+                current_light = 2
         elif(event.type == MOUSEBUTTONDOWN):
             print pygame.mouse.get_pos()
         elif(event.type == KEYUP):
