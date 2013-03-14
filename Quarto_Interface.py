@@ -23,7 +23,7 @@ class Board():
         self.square_width = square_width
         self.squares = []
         for square_num in range(self.total_squares):
-            new_square = Square(square_num, self.position, self.square_width)
+            new_square = Square(square_num, self.position, self.square_width, board_width)
             self.squares.append(new_square)
         width = (board_width * square_width) + (5 * (board_width - 1))
         self.surface = pygame.Surface((width, width))
@@ -35,10 +35,10 @@ class Board():
         pass
 
     def get_board_surface(self):
+        self.surface.fill(BLACK)
         for square in self.squares:
             square_surf = square.get_square_surface()
             self.surface.blit(square_surf, square.position)
-        self.surface.fill(BLACK)
         return self.surface
 
     def draw_board(self):
@@ -47,11 +47,16 @@ class Board():
     
 class Square():
 
-    def __init__(self, square_number, board_position, width):
+    def __init__(self, square_number, board_position, square_width, squares_num):
         self.square_num = square_number
-        self.width = width
-        #Do some math here!!
-        self.position = (0,0)
+        self.width = square_width
+        row = square_number / squares_num
+        col = square_number % squares_num
+        x = (self.width + 5) * col
+        y = (self.width + 5) * row
+        self.position = (x,y)
+        self.surface = pygame.Surface((self.width, self.width))
+        self.surface.fill(GREEN)
 
     def get_val(self):
         pass
@@ -60,10 +65,10 @@ class Square():
         pass
 
     def get_location(self):
-        return (self.x, self.y)
+        return self.position
 
     def get_square_surface(self):
-        pass
+        return self.surface
 
 def right_arrow_pressed():
     print "Right Pressed!"
