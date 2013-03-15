@@ -165,9 +165,6 @@ class Piece_Holder():
             y_vals[y] += 1
         return (x_vals, y_vals)
 
-    def move_piece_back(self):
-        
-
     def piece_returned(self):
         self.squares[self.moving_piece].returned()
         self.moving_piece = Piece_Holder.DONE_MOVING
@@ -206,6 +203,9 @@ class Holder_Square():
     def returned(self):
         self.piece = self.primary_piece
 
+
+def move_piece_back():
+    pass
 
 my_board = Board((300, 50), 4, 100)
 my_piece_holder = Piece_Holder((10, 10), my_board)
