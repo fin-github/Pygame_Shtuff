@@ -36,7 +36,7 @@ class Board():
     def get_square(self, square_number):
         pass
 
-    def get_board_surface(self):
+    def update_board_surface(self):
         self.surface.fill(BLACK)
         for square in self.squares:
             square_surf = square.get_square_surface()
@@ -44,7 +44,7 @@ class Board():
         return self.surface
 
     def draw_board(self):
-        board_surf = self.get_board_surface()
+        board_surf = self.update_board_surface()
         MAIN_SURF.blit(board_surf, self.position)
 
     def check_for_click(self):
@@ -54,11 +54,9 @@ class Board():
             mouse_y -= self.position[1]
             col = mouse_x / (self.square_width + 5)
             row = mouse_y / (self.square_width + 5)
-            self.squares[(self.board_width * row) + col].on_click()
+            self.squares[(self.board_width * row) + col].click_action()
     
 class Square():
-
-    print "TEST"
 
     def __init__(self, square_number, board):
         self.square_num = square_number
@@ -83,44 +81,54 @@ class Square():
     def get_square_surface(self):
         return self.surface
 
-    def on_click(self):
+    def click_action(self):
         if self.holder:
             self.surface.fill(RED)
         else:
             self.surface.fill(GREEN)
         self.holder = not self.holder
-    
-def right_arrow_pressed():
-    print "Right Pressed!"
+        PIECE_1 = pygame.image.load("Quarto_Pieces/Piece_1.png")
+        PIECE_1 = pygame.transform.scale(PIECE_1, (self.width, self.width))
+        self.surface.blit(PIECE_1, (0, 0))
 
-def left_arrow_pressed():
-    print "Left Pressed!"
+class Piece_Holder():
 
-def down_arrow_pressed():
-    print "Down Pressed!"
+    def __init__(self, position, board):
+        self.board = board
+        self.position = position
+        self.surface = pygame.Surface((110, (55 * (board.total_squares / 2)) + 5))
+        self.surface.fill(WHITE)
+        pygame.draw.rect(self.surface, BLACK, (0, 0, 110, (55 * (board.total_squares / 2)) + 5), 5)
 
-def up_arrow_pressed():
-    print "Up Pressed!"
+        pieces = []
+        for x in range(board.total_squares):
+            raw_piece = pygame.image.load("Quarto_Pieces/Piece_"+str(x)+".png")
+            sized_piece = pygame.transform.scale(raw_piece, (50, 50))
+            pieces.append(sized_piece)
+            self.surface.blit(sized_piece, ((x % 2) * 55, ((x / 2) * 55) + 5))
+        
 
-my_board = Board((50,50), 4, 100)
+    def draw_holder(self):
+        MAIN_SURF.blit(self.surface, self.position)
+
+
+my_board = Board((300, 50), 4, 100)
+my_piece_holder = Piece_Holder((10, 10), my_board)
+#PIECE_1 = pygame.image.load("Quarto_Pieces/Piece_1.jpg")
+#PIECE_1 = pygame.transform.scale(PIECE_1, (100, 100))
+
 
 while True: # main game loop
     MAIN_SURF.fill(WHITE)
     my_board.draw_board()
+    my_piece_holder.draw_holder()
+    
     for event in pygame.event.get():
         if(event.type == QUIT):
             pygame.quit()
             sys.exit()
         elif(event.type == KEYDOWN):
             key_map = pygame.key.get_pressed()
-            if(key_map[K_RIGHT]):
-                right_arrow_pressed()
-            elif(key_map[K_LEFT]):
-                left_arrow_pressed()
-            elif(key_map[K_DOWN]):
-                down_arrow_pressed()
-            elif(key_map[K_UP]):
-                up_arrow_pressed()
         elif(event.type == MOUSEBUTTONDOWN):
             my_board.check_for_click()
     pygame.display.update()
