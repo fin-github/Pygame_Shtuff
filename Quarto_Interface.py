@@ -75,7 +75,6 @@ class Square():
         self.position = ((self.width + 5) * col, (self.width + 5) * row)
         self.surface = pygame.Surface((self.width, self.width))
         self.surface.fill(GREEN)
-        self.holder = True
         self.piece = Square.EMPTY
 
     def get_val(self):
@@ -270,9 +269,7 @@ def mouse_button_down():
             if(piece_clicked != Piece_Holder.NO_CLICK):
                 dragging_piece = True
         else:
-            piece_clicked, piece_num = my_next_piece_box.check_for_click()
-            print piece_clicked
-            print piece_num
+            piece_clicked, piece_num = my_next_piece_box.check_for_click(piece_num)
             if(piece_clicked != Piece_Holder.NO_CLICK):
                 dragging_piece = True
 
