@@ -19,7 +19,7 @@ Sun.enable()
 glLibColorMaterial(True) 
 
 drawing = 0
-Objects = [glLibObjCube(),glLibObjTeapot(),glLibObjSphere(64),glLibObjCylinder(0.5,1.0,64),glLibObjCone(0.5,1.8,64),glLibObjFromFile("ExamplesData/UberBall.obj")]
+Objects = [glLibObjCube(),glLibObjTeapot(),glLibObjSphere(64),glLibObjCylinder(0.5,1.0,64),glLibObjCone(0.5,1.8,64)]#,glLibObjFromFile("ExamplesData\UberBall.obj")]
 
 while True:
     key = pygame.key.get_pressed()
@@ -33,8 +33,7 @@ while True:
                 sys.exit()
             if event.key == K_RETURN:
                 drawing += 1
-                if drawing == 6:
-                    drawing = 0
+                drawing = drawing % 5
             if event.key == K_1: glLibColor((255,255,255))
             if event.key == K_2: glLibColor((255,0,0))
             if event.key == K_3: glLibColor((255,128,0))

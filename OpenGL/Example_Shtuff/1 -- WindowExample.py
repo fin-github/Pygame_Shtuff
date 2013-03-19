@@ -11,8 +11,6 @@ View.set_view()
 
 
 while True:
-    test_img = pygame.image.load("Piece_15.png")
-    Window.blit(test_img, (100, 100))
     key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == QUIT or key[K_ESCAPE]:
