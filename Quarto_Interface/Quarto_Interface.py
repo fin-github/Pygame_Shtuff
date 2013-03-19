@@ -14,6 +14,7 @@ YELLOW = (255, 255, 0)
 LIGHT_YELLOW = (100, 100, 0)
 RED = (255, 0, 0)
 LIGHT_RED = (100, 0, 0)
+GRAY = (150, 150, 150)
 
 class Board():
 
@@ -74,7 +75,7 @@ class Square():
         col = self.square_num % self.board.board_width
         self.position = ((self.width + 5) * col, (self.width + 5) * row)
         self.surface = pygame.Surface((self.width, self.width))
-        self.surface.fill(GREEN)
+        self.surface.fill(GRAY)
         self.piece = Square.EMPTY
 
     def get_val(self):
@@ -91,7 +92,7 @@ class Square():
 
     def click_action(self, piece_num):
         if(self.piece == Square.EMPTY):
-            raw_piece = pygame.image.load("Quarto_Pieces/Piece_"+str(piece_num)+".png")
+            raw_piece = pygame.image.load("Quarto_Pieces/Shadowed/Piece_"+str(piece_num)+".jpg")
             self.piece = pygame.transform.scale(raw_piece, (self.width, self.width))
             self.surface.blit(self.piece, (0, 0))
             return False
@@ -179,7 +180,7 @@ class Holder_Square():
                          ((self.square_num / 2) * (Piece_Holder.PIECE_WIDTH + 5)) + 5)
         self.surface = pygame.Surface(((Piece_Holder.PIECE_WIDTH + 2), (Piece_Holder.PIECE_WIDTH + 2)))
         if(self.square_num != 15):
-            raw_piece = pygame.image.load("Quarto_Pieces/Piece_"+str(self.square_num)+".png")
+            raw_piece = pygame.image.load("Quarto_Pieces/Shadowless/Piece_"+str(self.square_num)+".png")
             self.primary_piece = pygame.transform.scale(raw_piece, (Piece_Holder.PIECE_WIDTH, Piece_Holder.PIECE_WIDTH))
             self.piece = self.primary_piece
         else:
@@ -213,7 +214,7 @@ class Next_Piece_Box():
     def __init__(self, position):
         self.position = position
         self.surface = pygame.Surface((Piece_Holder.PIECE_WIDTH + 2, Piece_Holder.PIECE_WIDTH + 2))
-        raw_piece = pygame.image.load("Quarto_Pieces/Piece_15.png")
+        raw_piece = pygame.image.load("Quarto_Pieces/Shadowless/Piece_15.png")
         self.piece = pygame.transform.scale(raw_piece, (Piece_Holder.PIECE_WIDTH, Piece_Holder.PIECE_WIDTH))
         self.square_rect = pygame.Rect(position[0], position[1], Piece_Holder.PIECE_WIDTH + 2, Piece_Holder.PIECE_WIDTH + 2)
         self.piece_num = 15
@@ -248,7 +249,7 @@ class Next_Piece_Box():
 
     def on_mouse_drop(self, piece_num):
         self.piece_num = piece_num
-        raw_piece = pygame.image.load("Quarto_Pieces/Piece_"+str(piece_num)+".png")
+        raw_piece = pygame.image.load("Quarto_Pieces/Shadowless/Piece_"+str(piece_num)+".png")
         self.piece = pygame.transform.scale(raw_piece, (Piece_Holder.PIECE_WIDTH, Piece_Holder.PIECE_WIDTH))
         self.surface.blit(self.piece, (1, 1))
             
