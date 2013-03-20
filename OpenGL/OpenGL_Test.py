@@ -6,7 +6,7 @@ import math
 pygame.init()
 
 Screen = (800,600)
-Window = glLibWindow(Screen,caption="Lighting Test")
+Window = glLibWindow(Screen,fullscreen=False,caption="Lighting Test")
 View3D = glLibView3D((0,0,Screen[0],Screen[1]),45)
 View3D.set_view()
 
@@ -29,7 +29,8 @@ Objects = [glLibObjCube(),
 default_coordinates = [6, 90, 90]
 sphere_coordinates = default_coordinates
 camera_pos = [0, 0, 6]
-x, y = 0, 0
+x, y, z = 0, 0, 6
+negative = False
 
 while True:
     key = pygame.key.get_pressed()
@@ -53,36 +54,39 @@ while True:
             if event.key == K_7: glLibColor((128,0,255))
     
     if   key[K_LEFT]:
-        sphere_coordinates[2] += 1
         y = camera_pos[1]
-        x = camera_pos[0] - .1
+        x = camera_pos[0] - .03
+        if(negative): x += .06
     elif key[K_RIGHT]:
-        sphere_coordinates[2] -= 1
         y = camera_pos[1]
-        x = camera_pos[0] + .1
+        x = camera_pos[0] + .03
+        if(negative): x -= .06
     elif key[K_UP]:
-        sphere_coordinates[1] -= 1
         x = camera_pos[0]
-        y = camera_pos[1] + .1
+        y = camera_pos[1] + .03
+        if(negative): y -= .06
     elif key[K_DOWN]:
-        sphere_coordinates[1] += 1
         x = camera_pos[0]
-        y = camera_pos[1] - .1
+        y = camera_pos[1] - .03
+        if(negative): y += .06
     elif key[K_SPACE]:
-        sphere_coordinates = default_coordinates
         x, y = 0, 0
+        negative = False
 
-    print (x**2) + (y**2)
     if (((x**2) + (y**2)) >= 36):
-        print "Greater"
-        x -= .2
-        y -= .2
+        new_x = math.fabs(x) - .06
+        new_y = math.fabs(y) - .06
+        x = math.copysign(new_x, x)
+        y = math.copysign(new_y, y)
+        negative = not negative
 ##    r = 6*(math.sin(math.radians(sphere_coordinates[2])))
 ##    z = 6*(math.cos(math.radians(sphere_coordinates[2])))
 ##    x = r*(math.cos(math.radians(sphere_coordinates[1])))
 ##    y = r*(math.sin(math.radians(sphere_coordinates[1])))
-    #print sphere_coordinates, " ", r, " ", [x, y, z]
+    
     z = (36 - (x**2) - (y**2))**.5
+    if(negative):
+        z *= -1
     camera_pos = [x, y, z]
     Camera.set_target_pos([x, y, z])
 

@@ -9,13 +9,13 @@ pygame.init()
 class glLibWindow:
     def __init__(self,size,fullscreen=False,icon=None,caption="glLib Window",multisample=False):
         self.size = size
-        if icon == None:icon = pygame.Surface((1,1)); icon.set_alpha(0)
+        if(icon == None): icon = pygame.Surface((1,1)); icon.set_alpha(0)
         pygame.display.set_icon(icon)
         pygame.display.set_caption(caption)
         self.multisample = multisample
         self.fullscreen = fullscreen
         if self.multisample:pygame.display.gl_set_attribute(GL_MULTISAMPLEBUFFERS,1)
-        else:pygame.display.gl_set_attribute(GL_MULTISAMPLEBUFFERS,0)
+        else: pygame.display.gl_set_attribute(GL_MULTISAMPLEBUFFERS,0)
         self.set_fullscreen(self.fullscreen)
         self.clear_color = (0,0,0)
         glLibInit.glLibInitialize()
