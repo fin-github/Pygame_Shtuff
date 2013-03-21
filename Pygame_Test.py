@@ -13,8 +13,7 @@ YELLOW = (153, 153, 0)
 RED = (255, 0, 0)
 LIGHT_YELLOW = (255, 255, 102)
 
-titleFont = pygame.font.Font(
-    'freesansbold.ttf', 50)
+titleFont = pygame.font.Font('freesansbold.ttf', 50)
 textSurfaceObj = titleFont.render('Are You Ready?', True, BLACK)
 textRectObj = textSurfaceObj.get_rect()
 textRectObj.center = (200, 60)
