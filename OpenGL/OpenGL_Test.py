@@ -23,8 +23,8 @@ Objects = [glLibObjCube(),
            glLibObjTeapot(),
            glLibObjSphere(64),
            glLibObjCylinder(0.5,1.0,64),
-           glLibObjCone(0.5,1.8,64)]
-           #,glLibObjFromFile("ExamplesData\UberBall.obj")]
+           glLibObjCone(0.5,1.8,64),
+           glLibObjFromFile("ExamplesData/Spikey.obj")]
 
 default_coordinates = [6, 90, 90]
 sphere_coordinates = default_coordinates

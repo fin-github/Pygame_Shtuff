@@ -11,14 +11,14 @@ View3D = glLibView3D((0,0,Screen[0],Screen[1]),45)
 View3D.set_view() 
 
 drawing = 0
-Objects = [glLibObjFromFile("ExamplesData/test1.obj")]
-##Objects = [glLibObjCube(),
-##           glLibObjTeapot(),
-##           glLibObjSphere(64),
-##           glLibObjCylinder(0.5,1.0,64),
-##           glLibObjCone(0.5,1.8,64),
-##           glLibObjFromFile("ExamplesData/UberBall.obj"),
-##           glLibObjFromFile("ExamplesData/test1.obj")]
+#Objects = [glLibObjFromFile("ExamplesData/test1.obj")]
+Objects = [glLibObjCube(),
+           glLibObjTeapot(),
+           glLibObjSphere(64),
+           glLibObjCylinder(0.5,1.0,64),
+           glLibObjCone(0.5,1.8,64),
+           glLibObjFromFile("ExamplesData/UberBall.obj"),
+           glLibObjFromFile("ExamplesData/test1.obj")]
 yrot = 0
 xrot = 0
 while True:
