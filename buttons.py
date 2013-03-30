@@ -50,20 +50,20 @@ class Button():
 
         self.update_surface()
 
-    def update_surface(self):
+    def update_surf(self):
         self.surface.fill(WHITE)
         self.button_surface.fill(WHITE)
         #Redraw button rects
-        pygame.draw.rect(self.button_surface, self.color,
+        self.draw_button(self.button_surface, self.color,
                          self.button_surface.get_rect(), 3)
         if(self.checked):
-            pygame.draw.rect(self.button_surface, self.color, self.checked_rect)
+            self.draw_button(self.button_surface, self.color, self.checked_rect)
         self.surface.blit(self.button_surface, (0, 0))
 
         #do some math and redraw text
         rect = self.surface.get_rect()
-        y = rect.centery
-        y -= ((self.text_surface.get_rect()).height)/2
+        surf_center = rect.centery
+        y = surf_center - ((self.text_surface.get_rect()).height)/2
         self.surface.blit(self.text_surface, (self.size + 5, y))
         
 
@@ -106,6 +106,9 @@ class CheckBox(Button):
         else:
             return False
 
+    def update_surface(self):
+        self.update_surf()
+
 class Radio_Button(Button):
 
     def __init__(self, position, text, button_number, check=False, color=BLACK,
@@ -140,6 +143,10 @@ class Radio_Button(Button):
         self.checked = not self.checked
         self.update_surface()
         MAIN_SURF.blit(self.surface, self.position)
+
+    def update_surface(self):
+        for button in self.buttons:
+            print button
     
 
 check_boxes = []
@@ -148,8 +155,10 @@ for x in range(6):
     check_boxes.append(CheckBox((50, 50 + (x * 75)), "Box "+str(x+1),
                                 check=False, color=colors[x%5], text_size=32))
 
-radio_group = Radio_Button((50, 50 + (x * 75)), "Box "+str(x+1),
+radio_group = Radio_Button((200, 50), "Radio Test", 3,
                                 check=False, color=colors[x%5], text_size=32)
+print radio_group.buttons
+radio_group.update_surface()
 
 while True: # main game loop
     MAIN_SURF.fill(WHITE)
@@ -162,9 +171,11 @@ while True: # main game loop
                 pygame.quit()
                 sys.exit()
         elif (event.type == MOUSEBUTTONDOWN):
+            radio_group.check_for_click()
             for box in check_boxes:
                 box.check_for_click()
 
+    radio_group.draw_surface()
     for box in check_boxes:
         box.draw_surface()
     pygame.display.update()
