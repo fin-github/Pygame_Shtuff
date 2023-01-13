@@ -146,7 +146,7 @@ class Radio_Button(Button):
 
     def update_surface(self):
         for button in self.buttons:
-            print button
+            print(button)
     
 
 check_boxes = []
@@ -157,7 +157,7 @@ for x in range(6):
 
 radio_group = Radio_Button((200, 50), "Radio Test", 3,
                                 check=False, color=colors[x%5], text_size=32)
-print radio_group.buttons
+print(radio_group.buttons)
 radio_group.update_surface()
 
 while True: # main game loop
